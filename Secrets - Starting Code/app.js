@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require("express");
 const mongoose = require("mongoose");
 const ejs = require("ejs");
@@ -6,6 +7,9 @@ const encrypt = require("mongoose-encryption");
 
 
 const app = express();
+
+// console.log(process.env.API_KEY);
+
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({
   extended: true
@@ -22,8 +26,8 @@ const userSchema = new mongoose.Schema({
 
 // Using 'Secret String Instead of Two Keys' & 'Encrypt Only Certain Fields' to encrpt only password field
 // from npm mongoose-encryption docs
-const secret = "Thisisourlittlesecret.";
-userSchema.plugin(encrypt, { secret: secret, encryptedFields: ["password"] });
+
+userSchema.plugin(encrypt, { secret: process.env.SECRET, encryptedFields: ["password"] });
 
 const User = mongoose.model("User", userSchema);
 
