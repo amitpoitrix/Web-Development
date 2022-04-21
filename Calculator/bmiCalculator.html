@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>BMI Calculator</title>
+  </head>
+  <body>
+
+    <h1>BMI Calculator</h1>
+
+    <!-- Here action attribute is the route where we want this form to process on -->
+    <!-- and method is post becoz we're sending info to the server not getting info from the server -->
+    <form action="/bmicalculator" method="post">
+      <input type="text" name="weight" placeholder="weight">
+      <input type="text" name="height" placeholder="height">
+      <!-- here 'button' tag 'type' attribute should be 'submit' (instead of just 'button') as submit will trigger the post method of form -->
+      <button type="submit">Calculate BMI</button>
+    </form>
+
+  </body>
+</html>

@@ -1,0 +1,28 @@
+<%- include("header") -%>
+
+  <div class="box" id="heading">
+    <h1> <%= ListTitle %> </h1>
+  </div>
+
+
+  <div class="box">
+    <!-- This for loop renders the entire newListItems array -->
+    <% for(var i=0; i < newListItems.length; i++){ %>
+    <div class="item">
+      <input type="checkbox">
+      <p> <%= newListItems[i] %> </p>
+    </div>
+    <% } %>
+
+    <!-- '/' -> root route or home route -->
+    <form class="item" action="/" method="post">
+      <!-- newItem as name will act as variable in JS -->
+      <input type="text" name="newItem" placeholder="New Item" autocomplete="off">
+      <!-- button of type submit trigger this POST request to '/' home route & also button value if use EJS than with "this will
+      take entire sentence" while without quoted it'll only take first word -->
+      <button type="submit" name="list" value = <%= ListTitle %>> + </button>
+    </form>
+
+  </div>
+
+<%- include("footer") -%>
