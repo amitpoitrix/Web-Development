@@ -20,6 +20,9 @@ const userSchema = new mongoose.Schema({
   password: String
 });
 
+hgchcc
+
+
 // Using 'Secret String Instead of Two Keys' & 'Encrypt Only Certain Fields' to encrpt only password field
 // from npm mongoose-encryption docs
 const secret = "Thisisourlittlesecret.";
