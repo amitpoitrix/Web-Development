@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const ejs = require("ejs");
 const bodyParser = require("body-parser");
+const encrypt = require("mongoose-encryption");
 
 
 const app = express();
@@ -18,6 +19,11 @@ const userSchema = new mongoose.Schema({
   email: String,
   password: String
 });
+
+// Using 'Secret String Instead of Two Keys' & 'Encrypt Only Certain Fields' to encrpt only password field
+// from npm mongoose-encryption docs
+const secret = "Thisisourlittlesecret.";
+userSchema.plugin(encrypt, { secret: secret, encryptedFields: ["password"] });
 
 const User = mongoose.model("User", userSchema);
 
