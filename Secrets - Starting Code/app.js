@@ -3,8 +3,10 @@ const express = require("express");
 const mongoose = require("mongoose");
 const ejs = require("ejs");
 const bodyParser = require("body-parser");
-// const encrypt = require("mongoose-encryption");
-const md5 = require("md5");
+// const encrypt = require("mongoose-encryption");  // Level 2
+// const md5 = require("md5");   // Level 3
+const bcrypt = require('bcrypt');   // Level 4
+const saltRounds = 10;
 
 
 const app = express();
@@ -49,24 +51,28 @@ app.get("/login", function(req, res){
 
 // POST Method
 app.post("/register", function(req, res){
-  const newUser = new User({
-    email: req.body.username,
-    password: md5(req.body.password)
-  });
 
-  newUser.save(function(err){
-    if(err){
-      console.log(err);
-    } else{
-      res.render("secrets");
-    }
+  bcrypt.hash(req.body.password, saltRounds, function(err, hash) {
+    const newUser = new User({
+      email: req.body.username,
+      password: hash
+    });
+
+    newUser.save(function(err){
+      if(err){
+        console.log(err);
+      } else{
+        res.render("secrets");
+      }
+    });
+
   });
 
 });
 
 app.post("/login", function(req, res){
   const username = req.body.username;
-  const password = md5(req.body.password);
+  const password = req.body.password;
   // As user have enter the username & password we'll check in our database whether its correct or not if correct than we'll
   // give access to secrets page
   User.findOne({email: username}, function(err, foundUser){
@@ -74,11 +80,15 @@ app.post("/login", function(req, res){
       console.log(err);
     } else{
       if(foundUser){
-        if(password === foundUser.password){
-          res.render("secrets");
-        }
+        bcrypt.compare(password, foundUser.password, function(err, result) {
+          if(result === true){
+            res.render("secrets");
+          }
+        });
+        
       }
     }
+
   });
 
 });
